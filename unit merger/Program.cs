@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace unit_merger
 {
@@ -7,7 +8,7 @@ namespace unit_merger
     {
         static void Main(string[] args)
         {
-            Warrior[] platoon1 = new Warrior[] 
+            List<Warrior> platoon1 = new List<Warrior>()
             {
                 new Warrior("Глеб"),
                 new Warrior("Борис"),
@@ -16,7 +17,7 @@ namespace unit_merger
                 new Warrior("Константин"),
                 new Warrior("Евгений"),
             };
-            Warrior[] platoon2 = new Warrior[]
+            List<Warrior> platoon2 = new List<Warrior>()
             {
                 new Warrior("Елисей"),
                 new Warrior("Алексей"),
@@ -34,10 +35,10 @@ namespace unit_merger
 
     class Controller
     {
-        private Warrior[] _platoon1;
-        private Warrior[] _platoon2;
+        private List<Warrior> _platoon1;
+        private List<Warrior> _platoon2;
 
-        public Controller(Warrior[] platoon1, Warrior[] platoon2)
+        public Controller(List<Warrior> platoon1, List<Warrior> platoon2)
         {
             _platoon1 = platoon1;
             _platoon2 = platoon2;
@@ -45,7 +46,14 @@ namespace unit_merger
 
         public void MergePlatoons(string FirstSymbol)
         {
-            _platoon2 = _platoon2.Union(_platoon1.Where(warrior => warrior.Name.StartsWith(FirstSymbol))).ToArray();
+            List<Warrior> necessaryWarriors = _platoon1.Where(warrior => warrior.Name.StartsWith(FirstSymbol)).ToList();
+
+            _platoon2 = _platoon2.Union(necessaryWarriors).ToList();
+
+            foreach(var warrior in necessaryWarriors)
+            {
+                _platoon1.Remove(warrior);
+            }
         }
 
         public void ShowPlatoon2()
