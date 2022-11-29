@@ -27,6 +27,8 @@ namespace unit_merger
             Controller controller = new Controller(platoon1, platoon2);
 
             controller.MergePlatoons("Б");
+
+            controller.ShowPlatoon1();
             controller.ShowPlatoon2();
 
             Console.ReadKey();
@@ -48,21 +50,37 @@ namespace unit_merger
         {
             List<Warrior> necessaryWarriors = _platoon1.Where(warrior => warrior.Name.StartsWith(FirstSymbol)).ToList();
 
-            _platoon2 = _platoon2.Union(necessaryWarriors).ToList();
-
-            foreach(var warrior in necessaryWarriors)
+            foreach (var warrior in necessaryWarriors)
             {
                 _platoon1.Remove(warrior);
             }
+
+            _platoon2 = _platoon2.Union(necessaryWarriors).ToList();
+        }
+
+        public void ShowPlatoon1()
+        {
+            Console.WriteLine("Взвод 1:");
+
+            ShowPlatoon(_platoon1);
         }
 
         public void ShowPlatoon2()
         {
-            foreach(var warrior in _platoon2)
+            Console.WriteLine("Взвод 2:");
+
+            ShowPlatoon(_platoon2);
+        }
+
+        private void ShowPlatoon(List<Warrior> platoon)
+        {
+            foreach (var warrior in platoon)
             {
                 Console.WriteLine(warrior.Name);
             }
         }
+
+
     }
 
     class Warrior
