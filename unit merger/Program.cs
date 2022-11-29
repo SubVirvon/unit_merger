@@ -50,11 +50,7 @@ namespace unit_merger
         {
             List<Warrior> necessaryWarriors = _platoon1.Where(warrior => warrior.Name.StartsWith(FirstSymbol)).ToList();
 
-            foreach (var warrior in necessaryWarriors)
-            {
-                _platoon1.Remove(warrior);
-            }
-
+            _platoon1 = _platoon1.Except(necessaryWarriors).ToList();
             _platoon2 = _platoon2.Union(necessaryWarriors).ToList();
         }
 
